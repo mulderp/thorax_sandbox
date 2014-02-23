@@ -10,7 +10,6 @@ var Movies = Thorax.Collection.extend({
 })
 
 var movies = new Movies([
-    
     { title: "the artist", genre: 'drama'},
     { title: "la dolce vita", genre: 'drama' },
     { title: "django unchained", genre: 'action' }
@@ -42,12 +41,12 @@ var movies = new Movies([
       filterDrama: function() {
         console.log(activeFilter);
         activeFilter = 'drama';
-        movies.trigger('filter');
+        movies.trigger('reset');
       },
 
       filterOther: function() {
         activeFilter = 'action';
-        movies.trigger('filter');
+        movies.trigger('reset');
       },
 
 
