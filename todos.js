@@ -1,7 +1,6 @@
-$(document).ready(function() {
-  var view;
+  var TodosExample;
   
-  view = new Thorax.View({
+  TodosExample = Thorax.View.extend({
     collection: new Thorax.Collection([
       {
         title: "First Todo",
@@ -22,6 +21,3 @@ $(document).ready(function() {
     },
     template: Handlebars.compile("{{#collection tag=\"ul\"}}\n  <li {{#done}}class=\"done\"{{/done}}>\n    <input type=\"checkbox\" {{#done}}checked{{/done}}>\n    {{title}}\n  </li>\n{{/collection}}\n<form>\n  <input name=\"title\">\n  <input type=\"submit\" value=\"Add\">\n</form>")
   });
-  
-  view.appendTo('body');
-});
