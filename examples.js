@@ -4,20 +4,33 @@ Handlebars.template["root"] = Handlebars.compile(' <div id="sidebar"> <a href="#
 
 var examples = new Thorax.Collection( 
     [
-           {id: 1, name: "todos", action: "someExample"},
-           {id: 2, name: "todos 2", action: "otherExample"} 
+           {id: 1, name: "todos", action: "todosExample"},
+           {id: 2, name: "helpers", action: "helpersExample"},
+           {id: 3, name: "layouts", action: "layoutExample"},
+           {id: 4, name: "filtering", action: "filterExample"}
     ]);
 
 
+//----- the router
 var ExamplesList = Thorax.View.extend({
-  className: 'container',
+  className: 'controls',
   template: Handlebars.template["examples"],
-  someExample: function(ev) {
+  todosExample: function(ev) {
     ev.preventDefault();
     var target = $(ev.currentTarget);
     this._navigateTo(target.model().get('action'));
   },
-  otherExample: function(ev) {
+  helpersExample: function(ev) {
+    ev.preventDefault();
+    var target = $(ev.currentTarget);
+    this._navigateTo(target.model().get('action'));
+  },
+  filterExample: function(ev) {
+    ev.preventDefault();
+    var target = $(ev.currentTarget);
+    this._navigateTo(target.model().get('action'));
+  },
+  layoutExample: function(ev) {
     ev.preventDefault();
     var target = $(ev.currentTarget);
     this._navigateTo(target.model().get('action'));
@@ -35,6 +48,10 @@ var RootView = Thorax.LayoutView.extend({
   sidebar: new ExamplesList({examples: examples})
 });
 
+var layoutExample;
+
+
+//----- the router
 var ExamplesRouter = Backbone.Router.extend({
 
   routes: {
@@ -43,21 +60,34 @@ var ExamplesRouter = Backbone.Router.extend({
   },
 
   showExample: function(id) {
-    console.log("render a single example with layout");
-    if (id == "someExample") {
+    if (id == "todosExample") {
       var todosExample = new TodosExample();
       rootView.setView(todosExample);
     }
-    else
+    else if (id == "helpersExample")
     {
-      var helperExampleview = new HelperExampleview();
-      rootView.setView(helperExampleview);
+      var helperExample = new HelperExampleView();
+      rootView.setView(helperExample);
+    }
+    else if (id == "layoutExample")
+    {
+      layoutExample = new LayoutExample();
+      layoutExample.on("deactivated", function() {
+        layoutExample.retain();
+      });
+      rootView.setView(layoutExample);
+    }
+    else if (id == "filterExample")
+    {
+      var filterExample = new FilterExample();
+      rootView.setView(filterExample);
     }
   },
 
   showIndex: function(id) {
     console.log("show index view");
-    rootView.setView(todosExample);
+    var showWelcome = new WelcomesView();
+    rootView.setView(showWelcome);
   }
 
 });
